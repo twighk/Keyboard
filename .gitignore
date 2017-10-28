@@ -8,6 +8,7 @@
 *.elf
 *.bin
 *.lst
+*.ld
 
 # Linker output
 *.ilk
@@ -52,3 +53,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+*.log
+.settings

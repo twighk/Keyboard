@@ -115,13 +115,34 @@ int main(void)
   MX_USB_DEVICE_Init();
 
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Init(&htim1);
+  HAL_TIM_Base_Start(&htim1);
+  HAL_TIM_Base_Init(&htim3);
+  HAL_TIM_Base_Start(&htim3);
+  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  //HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
+	  //HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
+	  //HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
+	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,0xFFFF);
+	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1,0x0);
+
+	  HAL_Delay(666);
+
+	  //HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
+	  //HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
+	  //HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
+	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,0x0);
+	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1,0xFFFF);
+
+	  HAL_Delay(666);
+
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -250,9 +271,9 @@ static void MX_TIM3_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 84;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 0;
+  htim3.Init.Period = 1000;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
   {
