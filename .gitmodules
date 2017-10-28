@@ -1,0 +1,3 @@
+[submodule "KeyboardFirmware/CubeMX2Makefile"]
+	path = KeyboardFirmware/CubeMX2Makefile
+	url = https://github.com/baoshi/CubeMX2Makefile.git
