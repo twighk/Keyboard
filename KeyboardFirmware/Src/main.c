@@ -51,7 +51,7 @@
 #include "usb_device.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "KeyboardFirmware.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -115,39 +115,22 @@ int main(void)
   MX_USB_DEVICE_Init();
 
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Init(&htim1);
-  HAL_TIM_Base_Start(&htim1);
-  HAL_TIM_Base_Init(&htim3);
-  HAL_TIM_Base_Start(&htim3);
-  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+  hardware.htim1 = &htim1;
+  hardware.htim3 = &htim3;
+  hardware.huart1 = &huart1;
+  KFMain();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  //HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
-	  //HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
-	  //HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,0xFFFF);
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1,0x0);
-
-	  HAL_Delay(666);
-
-	  //HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
-	  //HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
-	  //HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,0x0);
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1,0xFFFF);
-
-	  HAL_Delay(666);
 
   /* USER CODE END WHILE */
-
   /* USER CODE BEGIN 3 */
-
   }
+
   /* USER CODE END 3 */
 
 }
@@ -218,9 +201,9 @@ static void MX_TIM1_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 84;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 0;
+  htim1.Init.Period = 1000;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
