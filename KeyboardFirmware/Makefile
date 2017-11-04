@@ -16,7 +16,7 @@ DEBUG = 1
 OPT = -O0
 
 #######################################
-# pathes
+# paths
 #######################################
 # Build path
 BUILD_DIR = build
@@ -25,43 +25,21 @@ BUILD_DIR = build
 # source
 ######################################
 C_SOURCES = \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
-  Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
-  Src/stm32f4xx_it.c \
-  Src/usb_device.c \
-  Src/system_stm32f4xx.c \
-  Src/usbd_conf.c \
-  Src/main.c \
-  Src/usbd_desc.c \
-  Src/stm32f4xx_hal_msp.c \
-  Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_hid.c \
-  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
-  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
-  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c  
+  $(wildcard Drivers/STM32F4xx_HAL_Driver/Src/*.c) \
+  $(wildcard Src/*.c) \
+  $(wildcard Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/*.c) \
+  $(wildcard Middlewares/ST/STM32_USB_Device_Library/Core/Src/*.c) 
 ASM_SOURCES = \
   startup/startup_stm32f401xc.s
+CPP_SOURCES = \
+  $(wildcard Src/*.cpp)
 
 #######################################
 # binaries
 #######################################
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-gcc -x assembler-with-cpp
+CPP = arm-none-eabi-g++
 CP = arm-none-eabi-objcopy
 AR = arm-none-eabi-ar
 SZ = arm-none-eabi-size
@@ -90,7 +68,8 @@ ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif
 # Generate dependency information
-CFLAGS += -std=c99 -MD -MP -MF $(BUILD_DIR)/.dep/$(@F).d
+CFLAGS += -MD -MP -MF $(BUILD_DIR)/.dep/$(@F).d
+CPPFLAGS = $(CFLAGS)
 
 #######################################
 # LDFLAGS
@@ -114,12 +93,19 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
+#list of C++ objects
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
+vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
+$(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR) 
+	$(CPP) -c $(CPPFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
+
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
+
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
