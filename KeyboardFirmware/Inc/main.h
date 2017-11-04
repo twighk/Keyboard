@@ -56,6 +56,23 @@
 
 /* Private define ------------------------------------------------------------*/
 
+/* USER CODE BEGIN Private defines */
+
+#define VBatReading_Pin GPIO_PIN_5
+#define VBatReading_GPIO_Port GPIOA
+#define LED_R_Pin GPIO_PIN_9
+#define LED_R_GPIO_Port GPIOA
+#define LED_G_Pin GPIO_PIN_6
+#define LED_G_GPIO_Port GPIOA
+#define LED_B_Pin GPIO_PIN_7
+#define LED_B_GPIO_Port GPIOA
+#define BMBCTS_Pin GPIO_PIN_10
+#define BMBCTS_GPIO_Port GPIOB
+#define BM_EN_Pin GPIO_PIN_14
+#define BM_EN_GPIO_Port GPIOB
+#define BMRES_Pin GPIO_PIN_15
+#define BMRES_GPIO_Port GPIOB
+
 #define Row0_Pin GPIO_PIN_0
 #define Row0_GPIO_Port GPIOA
 #define Row1_Pin GPIO_PIN_1
@@ -66,32 +83,12 @@
 #define Row3_GPIO_Port GPIOA
 #define Row4_Pin GPIO_PIN_4
 #define Row4_GPIO_Port GPIOA
-#define VBatReading_Pin GPIO_PIN_5
-#define VBatReading_GPIO_Port GPIOA
-#define LED_G_Pin GPIO_PIN_6
-#define LED_G_GPIO_Port GPIOA
-#define LED_B_Pin GPIO_PIN_7
-#define LED_B_GPIO_Port GPIOA
 #define Col0_Pin GPIO_PIN_0
 #define Col0_GPIO_Port GPIOB
 #define Col1_Pin GPIO_PIN_1
 #define Col1_GPIO_Port GPIOB
 #define Col2_Pin GPIO_PIN_2
 #define Col2_GPIO_Port GPIOB
-#define BMBCTS_Pin GPIO_PIN_10
-#define BMBCTS_GPIO_Port GPIOB
-#define Col6_Pin GPIO_PIN_12
-#define Col6_GPIO_Port GPIOB
-#define Col7_Pin GPIO_PIN_13
-#define Col7_GPIO_Port GPIOB
-#define BM_EN_Pin GPIO_PIN_14
-#define BM_EN_GPIO_Port GPIOB
-#define BMRES_Pin GPIO_PIN_15
-#define BMRES_GPIO_Port GPIOB
-#define LorR_Pin GPIO_PIN_8
-#define LorR_GPIO_Port GPIOA
-#define LED_R_Pin GPIO_PIN_9
-#define LED_R_GPIO_Port GPIOA
 #define Col3_Pin GPIO_PIN_3
 #define Col3_GPIO_Port GPIOB
 #define Col4_Pin GPIO_PIN_4
@@ -99,7 +96,27 @@
 #define Col5_Pin GPIO_PIN_5
 #define Col5_GPIO_Port GPIOB
 
-/* USER CODE BEGIN Private defines */
+#define Col6_Pin Col0_Pin
+#define Col6_GPIO_Port Col0_GPIO_Port
+#define Col7_Pin Col1_Pin
+#define Col7_GPIO_Port Col1_GPIO_Port
+#define Col8_Pin Col2_Pin
+#define Col8_GPIO_Port Col2_GPIO_Port
+#define Col9_Pin Col3_Pin
+#define Col9_GPIO_Port Col3_GPIO_Port
+#define Col10_Pin Col4_Pin
+#define Col10_GPIO_Port Col4_GPIO_Port
+#define Col11_Pin Col5_Pin
+#define Col11_GPIO_Port Col5_GPIO_Port
+
+#define Col12_Pin GPIO_PIN_12
+#define Col12_GPIO_Port GPIOB
+#define Col13_Pin GPIO_PIN_13
+#define Col13_GPIO_Port GPIOB
+
+#define LorR_Pin GPIO_PIN_8
+#define LorR_GPIO_Port GPIOA
+
 
 /* USER CODE END Private defines */
 

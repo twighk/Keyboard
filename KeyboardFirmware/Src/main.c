@@ -128,6 +128,7 @@ int main(void)
   {
 
   /* USER CODE END WHILE */
+
   /* USER CODE BEGIN 3 */
   }
 
@@ -346,12 +347,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(VBatReading_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Col0_Pin Col1_Pin Col2_Pin BMBCTS_Pin 
-                           Col6_Pin Col7_Pin Col3_Pin Col4_Pin 
-                           Col5_Pin PB8 */
-  GPIO_InitStruct.Pin = Col0_Pin|Col1_Pin|Col2_Pin|BMBCTS_Pin 
-                          |Col6_Pin|Col7_Pin|Col3_Pin|Col4_Pin 
-                          |Col5_Pin|GPIO_PIN_8;
+  /*Configure GPIO pins : Col0_Pin Col1_Pin Col2_Pin Col6_Pin 
+                           Col7_Pin Col3_Pin Col4_Pin Col5_Pin */
+  GPIO_InitStruct.Pin = Col0_Pin|Col1_Pin|Col2_Pin|Col6_Pin 
+                          |Col7_Pin|Col3_Pin|Col4_Pin|Col5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : BMBCTS_Pin PB8 */
+  GPIO_InitStruct.Pin = BMBCTS_Pin|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -366,7 +371,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : LorR_Pin */
   GPIO_InitStruct.Pin = LorR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(LorR_GPIO_Port, &GPIO_InitStruct);
 
 }
