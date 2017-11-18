@@ -13,6 +13,7 @@ extern "C" {
 
 #include "stm32f4xx_hal.h"
 
+
 struct Hardware {
 	TIM_HandleTypeDef *htim1;
 	TIM_HandleTypeDef *htim3;
