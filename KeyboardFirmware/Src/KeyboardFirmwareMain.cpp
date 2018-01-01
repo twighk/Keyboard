@@ -24,13 +24,33 @@ extern "C" {
 
 struct Hardware hardware;
 
-struct HidMouse {
-	uint8_t buttons;
-	int8_t x;
-	int8_t y;
-	int8_t wheel;
-};
-
+struct HidKeyboard{
+	bool left_control : 1;
+	bool left_shift : 1;
+	bool left_alt : 1;
+	bool left_gui : 1;
+	bool right_control : 1;
+	bool right_shift : 1;
+	bool right_alt : 1;
+	bool right_gui : 1;
+	uint8_t reserved;
+	uint8_t keys[6];
+	
+	HidKeyboard(){
+		left_control = false;
+		left_shift = false;
+		left_alt = false;
+		left_gui = false;
+		right_control = false;
+		right_shift = false;
+		right_alt = false;
+		right_gui = false;
+		reserved = 0;
+		for (int i = 0; i != sizeof(keys)/sizeof(keys[0]); ++i)
+			keys[i] = 0;
+	}
+} __attribute__((packed));
+static_assert(sizeof(HidKeyboard) == 8 , "Sizeof HidKeyboard is not 8");
 
 void KFMain(){
 
@@ -39,21 +59,28 @@ void KFMain(){
 
 	//ManualDisco();
 
-	struct HidMouse hidmouse;
-
-	hidmouse.buttons = 0;
-	hidmouse.x = 10;
-	hidmouse.y = 10;
-	hidmouse.wheel = 0;
-
+	struct HidKeyboard hidkeyboard_last;
 	while(true){
+		struct HidKeyboard hidkeyboard;
 
 		HAL_GPIO_WritePin(Row1_GPIO_Port, Row1_Pin, GPIO_PIN_SET);
-		if (GPIO_PIN_SET == HAL_GPIO_ReadPin(Col11_GPIO_Port, Col11_Pin)){
-			UsbSend(&hidmouse);
-			HAL_Delay(1000);
+		hidkeyboard.keys[0] = (GPIO_PIN_SET == HAL_GPIO_ReadPin(Col11_GPIO_Port, Col11_Pin)? 4 : 0);
+		hidkeyboard.keys[1] = (GPIO_PIN_SET == HAL_GPIO_ReadPin(Col10_GPIO_Port, Col10_Pin)? 5 : 0);
+		HAL_GPIO_WritePin(Row1_GPIO_Port, Row1_Pin, GPIO_PIN_RESET);
+
+		HAL_GPIO_WritePin(Row2_GPIO_Port, Row2_Pin, GPIO_PIN_SET);
+		hidkeyboard.keys[2] = (GPIO_PIN_SET == HAL_GPIO_ReadPin(Col11_GPIO_Port, Col11_Pin)? 6 : 0);
+		hidkeyboard.keys[3] = (GPIO_PIN_SET == HAL_GPIO_ReadPin(Col10_GPIO_Port, Col10_Pin)? 7 : 0);
+		HAL_GPIO_WritePin(Row2_GPIO_Port, Row2_Pin, GPIO_PIN_RESET);
+
+		if (memcmp(&hidkeyboard_last, &hidkeyboard, sizeof(hidkeyboard))){
+			UsbSend(&hidkeyboard);
+			SetBLed(0xFFFF);
+			HAL_Delay(66);
+			SetBLed(0x200);
 		}
 
+		hidkeyboard_last = hidkeyboard;
 	}
 
 }
