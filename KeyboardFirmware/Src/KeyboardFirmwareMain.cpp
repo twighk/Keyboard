@@ -59,6 +59,11 @@ void KFMain(){
 
 	//ManualDisco();
 
+	HAL_GPIO_WritePin(BM_EN_GPIO_Port,BM_EN_Pin,GPIO_PIN_RESET); // 
+	HAL_GPIO_WritePin(BMRES_GPIO_Port,BMRES_Pin,GPIO_PIN_RESET); // 
+	HAL_Delay(66);
+	HAL_GPIO_WritePin(BMRES_GPIO_Port,BMRES_Pin,GPIO_PIN_SET); // 
+
 	struct HidKeyboard hidkeyboard_last;
 	while(true){
 		struct HidKeyboard hidkeyboard;
