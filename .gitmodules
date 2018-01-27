@@ -1,3 +1,6 @@
 [submodule "KeyboardFirmware/CubeMX2Makefile"]
 	path = KeyboardFirmware/CubeMX2Makefile
 	url = https://github.com/baoshi/CubeMX2Makefile.git
+[submodule "CCLoader"]
+	path = CCLoader
+	url = https://github.com/RedBearLab/CCLoader.git
