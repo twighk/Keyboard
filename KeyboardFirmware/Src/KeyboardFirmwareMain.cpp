@@ -79,7 +79,12 @@ void KFMain(){
 		HAL_GPIO_WritePin(Row2_GPIO_Port, Row2_Pin, GPIO_PIN_RESET);
 
 		if (memcmp(&hidkeyboard_last, &hidkeyboard, sizeof(hidkeyboard))){
-			UsbSend(&hidkeyboard);
+			int i;
+			for (i = 0; i != 3; ++i)
+				if (hidkeyboard.keys[i] != 0)
+					break;
+			HAL_UART_Transmit_IT(hardware.huart1, &hidkeyboard.keys[i], 1);
+			//UsbSend(&hidkeyboard);
 			SetBLed(0xFFFF);
 			HAL_Delay(66);
 			SetBLed(0x200);

@@ -4,3 +4,6 @@
 [submodule "CCLoader"]
 	path = CCLoader
 	url = https://github.com/RedBearLab/CCLoader.git
+[submodule "cc2540kbd"]
+	path = cc2540kbd
+	url = https://github.com/joric/cc2540kbd.git
