@@ -96,18 +96,18 @@
 #define Col5_Pin GPIO_PIN_5
 #define Col5_GPIO_Port GPIOB
 
-#define Col6_Pin Col0_Pin
-#define Col6_GPIO_Port Col0_GPIO_Port
-#define Col7_Pin Col1_Pin
-#define Col7_GPIO_Port Col1_GPIO_Port
-#define Col8_Pin Col2_Pin
-#define Col8_GPIO_Port Col2_GPIO_Port
-#define Col9_Pin Col3_Pin
-#define Col9_GPIO_Port Col3_GPIO_Port
-#define Col10_Pin Col4_Pin
-#define Col10_GPIO_Port Col4_GPIO_Port
-#define Col11_Pin Col5_Pin
-#define Col11_GPIO_Port Col5_GPIO_Port
+#define Col6_Pin GPIO_PIN_0
+#define Col6_GPIO_Port GPIOB
+#define Col7_Pin GPIO_PIN_1
+#define Col7_GPIO_Port GPIOB
+#define Col8_Pin GPIO_PIN_2
+#define Col8_GPIO_Port GPIOB
+#define Col9_Pin GPIO_PIN_3
+#define Col9_GPIO_Port GPIOB
+#define Col10_Pin GPIO_PIN_4
+#define Col10_GPIO_Port GPIOB
+#define Col11_Pin GPIO_PIN_5
+#define Col11_GPIO_Port GPIOB
 
 #define Col12_Pin GPIO_PIN_12
 #define Col12_GPIO_Port GPIOB

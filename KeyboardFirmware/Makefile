@@ -63,7 +63,7 @@ C_INCLUDES += -IMiddlewares/ST/STM32_USB_Device_Library/Class/HID/Inc
 C_INCLUDES += -IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc
 # compile gcc flags
 ASFLAGS = -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
-CFLAGS = -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+CFLAGS = -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -Wextra
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif

@@ -349,8 +349,10 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : Col0_Pin Col1_Pin Col2_Pin Col6_Pin 
                            Col7_Pin Col3_Pin Col4_Pin Col5_Pin */
-  GPIO_InitStruct.Pin = Col0_Pin|Col1_Pin|Col2_Pin|Col6_Pin 
-                          |Col7_Pin|Col3_Pin|Col4_Pin|Col5_Pin;
+  GPIO_InitStruct.Pin = Col0_Pin|Col1_Pin|Col2_Pin|Col3_Pin 
+                          |Col4_Pin|Col5_Pin|Col6_Pin|Col7_Pin
+                          |Col8_Pin|Col9_Pin|Col10_Pin|Col11_Pin
+                          |Col12_Pin|Col13_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

@@ -1623,8 +1623,15 @@ void uart_event_handle(app_uart_evt_t * p_event)
     {
         case APP_UART_DATA_READY:
             app_uart_get(&ch);
-            /*
-               index++;
+			uint8_t data[8] = {0};
+			data[0] = SHIFT_KEY_CODE * scan_shift[ch];
+			data[2] = (uint8_t) scan_codes[ch];
+			ble_hids_inp_rep_send(&m_hids, 0, sizeof(data), data);
+			data[0] = 0;
+			data[2] = 0;
+			ble_hids_inp_rep_send(&m_hids, 0, sizeof(data), data);
+			/*
+			   index++;
 
                if ((data_array[index - 1] == '\n') || (index >= (BLE_NUS_MAX_DATA_LEN)))
                {
