@@ -20,7 +20,7 @@ uint8_t UsbSend(T * const s){
 	return USBD_HID_SendReport(&hUsbDeviceFS, reinterpret_cast<uint8_t * const>(s), sizeof(T));
 }
 
-
+// Hid Keyboard Packet
 struct HidKeyboard{
 	bool left_control : 1;
 	bool left_shift : 1;
@@ -49,6 +49,7 @@ struct HidKeyboard{
 } __attribute__((packed));
 static_assert(sizeof(HidKeyboard) == 8 , "Sizeof HidKeyboard is not 8");
 
+//Bit field of the pressed keys
 struct KeyBits {
 
 	uint32_t keys[5];
@@ -60,7 +61,7 @@ struct KeyBits {
 	}
 
 	void Read(){
-		auto readkeys = KeyBits::ReadRhsKeys;
+		auto readkeys = (IsRightBoard()? ReadRhsKeys : ReadLhsKeys);
 
 		HAL_GPIO_WritePin(Row0_GPIO_Port, Row0_Pin, GPIO_PIN_SET);
 		keys[0] = readkeys();
@@ -81,6 +82,10 @@ struct KeyBits {
 		HAL_GPIO_WritePin(Row4_GPIO_Port, Row4_Pin, GPIO_PIN_SET);
 		keys[4] = readkeys();
 		HAL_GPIO_WritePin(Row4_GPIO_Port, Row4_Pin, GPIO_PIN_RESET);
+	}
+
+	static bool IsRightBoard(){
+		return GPIO_PIN_SET == HAL_GPIO_ReadPin(LorR_GPIO_Port, LorR_Pin);
 	}
 
 	static uint32_t ReadLhsKeys(){
