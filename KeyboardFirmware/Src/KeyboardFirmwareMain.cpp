@@ -175,6 +175,32 @@ void k(const KeyBits &, bool pressed, HidKeyboard& hk){
 	}
 }
 
+bool SpecialKeyPressed(const KeyBits &kb){
+	return kb.keys[4] & (1<<1 | 1<<12);
+}
+
+template <uint8_t normalkeycode, uint8_t specialkeycode>
+void s(const KeyBits &kb, bool pressed, HidKeyboard& hk){
+	const uint8_t keycode = (!SpecialKeyPressed(kb) ? normalkeycode : specialkeycode);
+	if(pressed){
+		for (int i = 0; i != sizeof(hk.keys)/sizeof(*hk.keys); ++i){
+			if(hk.keys[i] == keycode)
+				return;
+		}
+	}
+
+	for (int i = 0; i != sizeof(hk.keys)/sizeof(*hk.keys); ++i){
+		if(pressed){
+			if(hk.keys[i] == 0)
+				hk.keys[i] = keycode;
+			return;
+		} else {
+			if(hk.keys[i] == normalkeycode || hk.keys[i] == specialkeycode)
+				hk.keys[i] = 0;
+		}
+	}
+}
+
 const uint8_t K_a = 0x04;
 const uint8_t K_b = 0x05;
 const uint8_t K_c = 0x06;
@@ -250,15 +276,19 @@ const uint8_t K_f10 = 0x43;
 const uint8_t K_f11 = 0x44;
 const uint8_t K_f12 = 0x45;
 
+const uint8_t K_right = 0x4f;
+const uint8_t K_left = 0x50;
+const uint8_t K_down = 0x51;
+const uint8_t K_up = 0x52;
 
 
 void (*KeyCodes[5][14])(const KeyBits &, bool pressed, HidKeyboard & hk) = 
 	{{k<K_grave>,k<K_1>,k<K_2>,k<K_3>,k<K_4>,k<K_5>
-		 ,k<K_6>,k<K_7>,k<K_8>,k<K_9>,k<K_0>,k<K_minus>,k<K_equal>,k<K_bks>}		
+		 ,s<K_6,K_f6>,s<K_7,K_f7>,s<K_8,K_f8>,s<K_9,K_f9>,s<K_0,K_f10>,s<K_minus,K_f11>,s<K_equal,K_f12>,k<K_bks>}		
 	,{k<K_tab>,k<K_q>,k<K_w>,k<K_e>,k<K_r>,k<K_t>
-		 ,k<K_y>,k<K_u>,k<K_i>,k<K_o>,k<K_p>,k<K_sqopen>,k<K_sqclose>,k<K_bslash>}		
+		 ,k<K_y>,k<K_u>,k<K_i>,k<K_o>,s<K_p,K_up>,k<K_sqopen>,k<K_sqclose>,k<K_bslash>}		
 	,{k<K_esc>,k<K_a>,k<K_s>,k<K_d>,k<K_f>,k<K_g>
-		 ,k<K_h>,k<K_j>,k<K_k>,k<K_l>,k<K_scolon>,k<K_quote>,nil,k<K_ret>}		
+		 ,k<K_h>,k<K_j>,k<K_k>,s<K_l,K_left>,s<K_scolon,K_down>,s<K_quote,K_right>,nil,k<K_ret>}		
 	,{lshift,k<K_z>,k<K_x>,k<K_c>,k<K_v>,k<K_b>
 		 ,k<K_n>,k<K_m>,k<K_comma>,k<K_fstop>,k<K_fslash>,nil,nil,rshift}		
 	,{lctrl,k<0>,lgui,lalt,k<K_space>,nil
