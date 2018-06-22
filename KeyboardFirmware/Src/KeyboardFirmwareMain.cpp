@@ -55,7 +55,7 @@ struct KeyBits {
 	uint32_t keys[5];
 	
 	KeyBits(){
-		for(int c = 0; c != sizeof(keys) / sizeof(keys[0]); ++c){
+		for(int c = 0; c != sizeof(keys) / sizeof(*keys); ++c){
 			keys[c] = 0;
 		}
 	}
@@ -165,9 +165,10 @@ void k(const KeyBits &, bool pressed, HidKeyboard& hk){
 
 	for (int i = 0; i != sizeof(hk.keys)/sizeof(*hk.keys); ++i){
 		if(pressed){
-			if(hk.keys[i] == 0)
+			if(hk.keys[i] == 0){
 				hk.keys[i] = keycode;
-			return;
+				return;
+			}
 		} else {
 			if(hk.keys[i] == keycode)
 				hk.keys[i] = 0;
@@ -191,9 +192,10 @@ void s(const KeyBits &kb, bool pressed, HidKeyboard& hk){
 
 	for (int i = 0; i != sizeof(hk.keys)/sizeof(*hk.keys); ++i){
 		if(pressed){
-			if(hk.keys[i] == 0)
+			if(hk.keys[i] == 0){
 				hk.keys[i] = keycode;
-			return;
+				return;
+			}
 		} else {
 			if(hk.keys[i] == normalkeycode || hk.keys[i] == specialkeycode)
 				hk.keys[i] = 0;
@@ -339,11 +341,7 @@ void KFMain(){
 		HidKeyboard hidkeyboard = ProcessKeys(hidkeyboard_last);
 
 		if (memcmp(&hidkeyboard_last, &hidkeyboard, sizeof(hidkeyboard)) != 0){
-			//HAL_UART_Transmit_IT(hardware.huart1, &hidkeyboard.keys[i], 1);
 			UsbSend(&hidkeyboard);
-			SetBLed(0xFFFF);
-			HAL_Delay(66);
-			SetBLed(0x200);
 		}
 
 		hidkeyboard_last = hidkeyboard;
@@ -354,49 +352,3 @@ void KFMain(){
 
 } // End extern "C"
 
-
-
-void Blinky(){
-	while(true){
-		SetBLed(0xFFFF);
-		SetRLed(0x200);
-
-		HAL_Delay(666);
-
-		SetRLed(0xFFFF);
-		SetGLed(0x200);
-
-		HAL_Delay(666);
-
-		SetGLed(0xFFFF);
-		SetBLed(0x200);
-
-		HAL_Delay(666);
-	}
-}
-
-void ManualDisco(){
-	while(true){
-		KeyBits kbs = KeyBits();
-		kbs.Read();
-
-		if (kbs.keys[1] & 1 << 12){
-			SetBLed(0x200);
-		} else {
-			SetBLed(0xFFFF);
-		}
-
-		if (kbs.keys[1] & 1 << 13){
-			SetRLed(0x300);
-		} else {
-			SetRLed(0xFFFF);
-		}
-
-		if (kbs.keys[1] & 1 << 11){
-			SetGLed(0x300);
-		} else {
-			SetGLed(0xFFFF);
-		}
-
-	}
-}
