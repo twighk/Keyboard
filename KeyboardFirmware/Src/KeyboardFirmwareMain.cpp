@@ -205,7 +205,7 @@ void s(const KeyBits &kb, bool pressed, HidKeyboard& hk){
 }
 
 void (*KeyCodes[5][14])(const KeyBits &, bool pressed, HidKeyboard & hk) = 
-	{{k<K_grave>,k<K_1>,k<K_2>,k<K_3>,k<K_4>,k<K_5>
+	{{s<K_grave,K_esc>,s<K_1,K_f1>,s<K_2,K_f2>,s<K_3,K_f3>,s<K_4,K_f4>,s<K_5,K_f5>
 		 ,s<K_6,K_f6>,s<K_7,K_f7>,s<K_8,K_f8>,s<K_9,K_f9>,s<K_0,K_f10>,s<K_minus,K_f11>,s<K_equal,K_f12>,s<K_bks,K_del>}		
 	,{k<K_tab>,k<K_q>,k<K_w>,k<K_e>,k<K_r>,k<K_t>
 		 ,k<K_y>,k<K_u>,k<K_i>,k<K_o>,s<K_p,K_up>,k<K_sqopen>,k<K_sqclose>,k<K_bslash>}		
