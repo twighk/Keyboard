@@ -208,13 +208,13 @@ void (*KeyCodes[5][14])(const KeyBits &, bool pressed, HidKeyboard & hk) =
 	{{s<K_grave,K_esc>,s<K_1,K_f1>,s<K_2,K_f2>,s<K_3,K_f3>,s<K_4,K_f4>,s<K_5,K_f5>
 		 ,s<K_6,K_f6>,s<K_7,K_f7>,s<K_8,K_f8>,s<K_9,K_f9>,s<K_0,K_f10>,s<K_minus,K_f11>,s<K_equal,K_f12>,s<K_bks,K_del>}		
 	,{k<K_tab>,k<K_q>,k<K_w>,k<K_e>,k<K_r>,k<K_t>
-		 ,k<K_y>,k<K_u>,k<K_i>,k<K_o>,s<K_p,K_up>,k<K_sqopen>,k<K_sqclose>,k<K_bslash>}		
+		 ,k<K_y>,k<K_u>,s<K_i,K_end>,s<K_o,K_pgdown>,s<K_p,K_up>,s<K_sqopen,K_pgup>,s<K_sqclose,K_home>,k<K_bslash>}		
 	,{k<K_esc>,k<K_a>,k<K_s>,k<K_d>,k<K_f>,k<K_g>
 		 ,k<K_h>,k<K_j>,k<K_k>,s<K_l,K_left>,s<K_scolon,K_down>,s<K_quote,K_right>,nil,k<K_ret>}		
 	,{lshift,s<K_z,K_mute>,s<K_x,K_vol_down>,s<K_c,K_vol_up>,k<K_v>,k<K_b>
 		 ,k<K_n>,k<K_m>,k<K_comma>,k<K_fstop>,k<K_fslash>,nil,nil,rshift}		
-	,{lctrl,k<0>,lgui,lalt,k<K_space>,nil
-		 ,k<K_space>,nil,nil,ralt,rgui,k<K_context>,k<0>,rctrl}
+	,{lctrl,k<0>,lgui,lalt,s<K_space,K_del>,nil
+		 ,s<K_space,K_del>,nil,nil,ralt,rgui,k<K_context>,k<0>,rctrl}
 	};
 
 static KeyBits previous_kbs = KeyBits();

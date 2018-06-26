@@ -75,7 +75,14 @@ const uint8_t K_f10 = 0x43;
 const uint8_t K_f11 = 0x44;
 const uint8_t K_f12 = 0x45;
 
+const uint8_t K_pscreen = 0x46;
+
+const uint8_t K_ins = 0x49;
+const uint8_t K_home = 0x4a;
+const uint8_t K_pgup = 0x4b;
 const uint8_t K_del = 0x4c;
+const uint8_t K_end = 0x4d;
+const uint8_t K_pgdown = 0x4e;
 
 const uint8_t K_right = 0x4f;
 const uint8_t K_left = 0x50;
