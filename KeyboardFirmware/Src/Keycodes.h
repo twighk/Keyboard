@@ -82,3 +82,8 @@ const uint8_t K_left = 0x50;
 const uint8_t K_down = 0x51;
 const uint8_t K_up = 0x52;
 
+const uint8_t K_context = 0x65;
+
+const uint8_t K_mute = 0x7f;
+const uint8_t K_vol_up = 0x80;
+const uint8_t K_vol_down = 0x81;

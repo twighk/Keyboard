@@ -211,10 +211,10 @@ void (*KeyCodes[5][14])(const KeyBits &, bool pressed, HidKeyboard & hk) =
 		 ,k<K_y>,k<K_u>,k<K_i>,k<K_o>,s<K_p,K_up>,k<K_sqopen>,k<K_sqclose>,k<K_bslash>}		
 	,{k<K_esc>,k<K_a>,k<K_s>,k<K_d>,k<K_f>,k<K_g>
 		 ,k<K_h>,k<K_j>,k<K_k>,s<K_l,K_left>,s<K_scolon,K_down>,s<K_quote,K_right>,nil,k<K_ret>}		
-	,{lshift,k<K_z>,k<K_x>,k<K_c>,k<K_v>,k<K_b>
+	,{lshift,s<K_z,K_mute>,s<K_x,K_vol_down>,s<K_c,K_vol_up>,k<K_v>,k<K_b>
 		 ,k<K_n>,k<K_m>,k<K_comma>,k<K_fstop>,k<K_fslash>,nil,nil,rshift}		
 	,{lctrl,k<0>,lgui,lalt,k<K_space>,nil
-		 ,k<K_space>,nil,nil,ralt,rgui,k<0>,k<0>,rctrl}
+		 ,k<K_space>,nil,nil,ralt,rgui,k<K_context>,k<0>,rctrl}
 	};
 
 static KeyBits previous_kbs = KeyBits();
