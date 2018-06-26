@@ -54,7 +54,7 @@ const uint8_t K_bslash = 0x31;
 const uint8_t K_scolon = 0x33;
 const uint8_t K_quote = 0x34;
 
-const uint8_t K_grave = 0x34;
+const uint8_t K_grave = 0x35;
 
 const uint8_t K_comma = 0x36;
 const uint8_t K_fstop = 0x37;
