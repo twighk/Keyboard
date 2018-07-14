@@ -274,9 +274,10 @@ void KFMain(){
 			UsbSend(&hidkeyboard);
 
 			USBD_HID_HandleTypeDef *hhid = (USBD_HID_HandleTypeDef*)hUsbDeviceFS.pClassData;
-			HAL_Delay(2);
-			if(hhid->state != HID_IDLE){
+			HAL_Delay(3);
+			if(hUsbDeviceFS.dev_state == USBD_STATE_CONFIGURED && hhid->state != HID_IDLE){
 				SetRLed(0x0000);
+				NVIC_SystemReset();
 			} else {
 				SetRLed(0xFFFF);
 			}
