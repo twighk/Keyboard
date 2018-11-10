@@ -53,7 +53,7 @@ SRC_FILES += \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp.c \
   $(SDK_ROOT)/components/libraries/bsp/bsp_btn_ble.c \
-  $(PROJ_DIR)/main.c \
+  $(PROJ_DIR)/main.cpp \
   $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c \
   $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c \
   $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
@@ -82,6 +82,7 @@ SRC_FILES += \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
   $(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
+  $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_pwm.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -311,7 +312,7 @@ flash: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
 flash_softdevice:
 	@echo Flashing softdevice: s140_nrf52_6.0.0_softdevice.hex
 	openocd -f interface/stlink.cfg -f target/nrf52.cfg -c init -c "reset init" -c halt -c "nrf51 mass_erase" -c "program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex verify" -c "reset run" -c exit
-gdb: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.bin
+gdb: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
 	arm-none-eabi-gdb $< -x openocd.gdbinit
 
 flash_nrfjprog: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
