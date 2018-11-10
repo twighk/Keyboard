@@ -23,6 +23,7 @@ uint8_t UsbSend(T * const s){
 
 // Hid Keyboard Packet
 struct HidKeyboard{
+	uint8_t report_id;
 	bool left_control : 1;
 	bool left_shift : 1;
 	bool left_alt : 1;
@@ -35,6 +36,7 @@ struct HidKeyboard{
 	uint8_t keys[6];
 	
 	HidKeyboard(){
+		report_id = 1;
 		left_control = false;
 		left_shift = false;
 		left_alt = false;
@@ -48,7 +50,17 @@ struct HidKeyboard{
 			keys[i] = 0;
 	}
 } __attribute__((packed));
-static_assert(sizeof(HidKeyboard) == 8 , "Sizeof HidKeyboard is not 8");
+
+struct HidConsumer{
+	uint8_t report_id;
+	uint8_t keys[3];
+	
+	HidConsumer(){
+		report_id = 2;
+		for (int i = 0; i != sizeof(keys)/sizeof(keys[0]); ++i)
+			keys[i] = 0;
+	}
+} __attribute__((packed));
 
 //Bit field of the pressed keys
 struct KeyBits {
@@ -274,13 +286,16 @@ void KFMain(){
 			UsbSend(&hidkeyboard);
 
 			USBD_HID_HandleTypeDef *hhid = (USBD_HID_HandleTypeDef*)hUsbDeviceFS.pClassData;
-			HAL_Delay(3);
+			
+			/*
+			HAL_Delay(30);
 			if(hUsbDeviceFS.dev_state == USBD_STATE_CONFIGURED && hhid->state != HID_IDLE){
 				SetRLed(0x0000);
 				NVIC_SystemReset();
 			} else {
 				SetRLed(0xFFFF);
 			}
+			*/
 		}
 
 		hidkeyboard_last = hidkeyboard;

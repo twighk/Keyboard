@@ -306,11 +306,21 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 # Flash the program
 flash: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
 	@echo Flashing: $<
+	openocd -f interface/stlink.cfg -f target/nrf52.cfg -c init -c "reset init" -c halt -c "program $< verify" -c "reset run" -c exit
+
+flash_softdevice:
+	@echo Flashing softdevice: s140_nrf52_6.0.0_softdevice.hex
+	openocd -f interface/stlink.cfg -f target/nrf52.cfg -c init -c "reset init" -c halt -c "nrf51 mass_erase" -c "program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex verify" -c "reset run" -c exit
+gdb: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.bin
+	arm-none-eabi-gdb $< -x openocd.gdbinit
+
+flash_nrfjprog: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
+	@echo Flashing: $<
 	nrfjprog -f nrf52 --program $< --sectorerase
 	nrfjprog -f nrf52 --reset
 
 # Flash softdevice
-flash_softdevice:
+flash_nrfjprogsoftdevice:
 	@echo Flashing: s140_nrf52_6.0.0_softdevice.hex
 	nrfjprog -f nrf52 --program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex --sectorerase
 	nrfjprog -f nrf52 --reset
