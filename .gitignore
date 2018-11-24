@@ -57,3 +57,9 @@ dkms.conf
 *.log
 .settings
 _build
+
+# Vim files
+*.swp
+
+#ctags
+tags
