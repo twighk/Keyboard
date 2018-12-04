@@ -1,5 +1,10 @@
 #pragma once
 
+#include <cstdint>
+
+#include "nrfx_pwm.h"
+#include "nrf_gpio.h"
+
 class LEDs {
 	const uint8_t R_PIN = NRF_GPIO_PIN_MAP(0,20) | NRFX_PWM_PIN_INVERTED;
 	const uint8_t G_PIN = NRF_GPIO_PIN_MAP(0,21) | NRFX_PWM_PIN_INVERTED;
