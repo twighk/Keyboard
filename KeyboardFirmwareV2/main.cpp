@@ -38,13 +38,13 @@ extern "C"{
 #include "nrf_log_default_backends.h"
 
 
-#define SHIFT_BUTTON_ID                     1                                          /**< Button used as 'SHIFT' Key. */
+const uint8_t SHIFT_BUTTON_ID = 1; //Button used as 'SHIFT' Key.
 
-#define DEVICE_NAME                         "Nordic_Keyboard"                          /**< Name of device. Will be included in the advertising data. */
-char const * const MANUFACTURER_NAME = "NordicSemiconductor";                      /**< Manufacturer. Will be passed to Device Information Service. */
+char const * const DEVICE_NAME = "Nordic_Keyboard"; //Name of device. Will be included in the advertising data.
+char const * const MANUFACTURER_NAME = "NordicSemiconductor"; //Manufacturer. Will be passed to Device Information Service.
 
-#define APP_BLE_OBSERVER_PRIO               3                                          /**< Application's BLE observer priority. You shouldn't need to modify this value. */
-#define APP_BLE_CONN_CFG_TAG                1                                          /**< A tag identifying the SoftDevice BLE configuration. */
+const uint8_t APP_BLE_OBSERVER_PRIO = 3; //Application's BLE observer priority. You shouldn't need to modify this value.
+const uint8_t APP_BLE_CONN_CFG_TAG = 1; //A tag identifying the SoftDevice BLE configuration.
 
 #define BATTERY_LEVEL_MEAS_INTERVAL         APP_TIMER_TICKS(2000)                      /**< Battery level measurement interval (ticks). */
 #define MIN_BATTERY_LEVEL                   81                                         /**< Minimum simulated battery level. */
@@ -385,7 +385,7 @@ static void pm_evt_handler(pm_evt_t const * p_evt)
         case PM_EVT_CONN_SEC_CONFIG_REQ:
         {
             // Reject pairing request from an already bonded peer.
-            pm_conn_sec_config_t conn_sec_config = {.allow_repairing = false};
+            pm_conn_sec_config_t conn_sec_config = {.allow_repairing = true};
             pm_conn_sec_config_reply(p_evt->conn_handle, &conn_sec_config);
         } break;
 
