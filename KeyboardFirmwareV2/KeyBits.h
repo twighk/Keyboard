@@ -45,13 +45,10 @@ struct KeyBits {
 
 		// Rows for writing
 		nrf_gpio_range_cfg_output(Row0,Row4);
-
-		(void)NRF_GPIO->OUT;
-
 	}
 
 	void Read(){
-		auto readkeys = (IsRightBoard()? ReadRhsKeys : ReadLhsKeys);
+		uint32_t (* const readkeys)(void) = (IsRightBoard()? ReadRhsKeys : ReadLhsKeys);
 
 		while(readkeys() != 0);
 
@@ -90,26 +87,26 @@ struct KeyBits {
 
 	static uint32_t ReadLhsKeys(){
 		return 0
-		| (nrf_gpio_pin_read(Col0)?1:0) <<  0
-		| (nrf_gpio_pin_read(Col1)?1:0) <<  1
-		| (nrf_gpio_pin_read(Col2)?1:0) <<  2
-		| (nrf_gpio_pin_read(Col3)?1:0) <<  3
-		| (nrf_gpio_pin_read(Col4)?1:0) <<  4
-		| (nrf_gpio_pin_read(Col5)?1:0) <<  5
-		;
+			| (nrf_gpio_pin_read(Col0) ? 1 <<  0 : 0) 
+			| (nrf_gpio_pin_read(Col1) ? 1 <<  1 : 0) 
+			| (nrf_gpio_pin_read(Col2) ? 1 <<  2 : 0) 
+			| (nrf_gpio_pin_read(Col3) ? 1 <<  3 : 0) 
+			| (nrf_gpio_pin_read(Col4) ? 1 <<  4 : 0) 
+			| (nrf_gpio_pin_read(Col5) ? 1 <<  5 : 0) 
+			;
 	}
 
 	static uint32_t ReadRhsKeys(){
 		return 0
-		| (nrf_gpio_pin_read(Col0)?1:0) <<  6
-		| (nrf_gpio_pin_read(Col1)?1:0) <<  7
-		| (nrf_gpio_pin_read(Col2)?1:0) <<  8
-		| (nrf_gpio_pin_read(Col3)?1:0) <<  9
-		| (nrf_gpio_pin_read(Col4)?1:0) << 10
-		| (nrf_gpio_pin_read(Col5)?1:0) << 11
-		| (nrf_gpio_pin_read(Col6)?1:0) << 12
-		| (nrf_gpio_pin_read(Col7)?1:0) << 13
-		;
+			| (nrf_gpio_pin_read(Col0) ? 1 <<  6 : 0)
+			| (nrf_gpio_pin_read(Col1) ? 1 <<  7 : 0)
+			| (nrf_gpio_pin_read(Col2) ? 1 <<  8 : 0)
+			| (nrf_gpio_pin_read(Col3) ? 1 <<  9 : 0)
+			| (nrf_gpio_pin_read(Col4) ? 1 << 10 : 0)
+			| (nrf_gpio_pin_read(Col5) ? 1 << 11 : 0)
+			| (nrf_gpio_pin_read(Col6) ? 1 << 12 : 0)
+			| (nrf_gpio_pin_read(Col7) ? 1 << 13 : 0)
+			;
 	}
 
 	const KeyBits operator^(const KeyBits & k){
@@ -118,6 +115,7 @@ struct KeyBits {
 		for(int c = 0; c != sizeof(keys) / sizeof(*keys); ++c){
 			out.keys[c] = keys[c] ^ k.keys[c];	
 		}
+
 		return out;
 	}
 

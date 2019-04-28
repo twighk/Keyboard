@@ -153,7 +153,7 @@ static void hid_generic_attempt_send_report(void)
     ret_code_t ret;
 	static struct HidKeyboard hidkeyboard_last = { 0 };
 
-	static struct HidKeyboard hidkeyboard; 
+	static struct HidKeyboard hidkeyboard = { 0 }; 
 	hidkeyboard = ProcessKeys(&hidkeyboard_last);
 
 	if (memcmp(&hidkeyboard_last, &hidkeyboard, sizeof(hidkeyboard)) == 0) {
