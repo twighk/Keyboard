@@ -3,7 +3,7 @@ TARGET          := half_board_firmware
 OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := c:/nordicSDK/nRF5_SDK_15.0.0_a53641a
-PROJ_DIR := ../../..
+PROJ_DIR := ./
 
 $(OUTPUT_DIRECTORY)/$(TARGET).out: \
   LINKER_SCRIPT  := usbd_hid_generic_gcc_nrf52.ld
@@ -127,7 +127,6 @@ INC_FOLDERS += \
   $(SDK_ROOT)/modules/nrfx/drivers/include \
   $(SDK_ROOT)/modules/nrfx/hal \
   $(SDK_ROOT)/modules/nrfx/mdk \
-  ../config \
 
 # Libraries common to all targets
 LIB_FILES += \
