@@ -1,11 +1,11 @@
-PROJECT_NAME     := usbd_hid_generic_pca10056
-TARGETS          := nrf52840_xxaa
+PROJECT_NAME     := half_board
+TARGET          := half_board_firmware
 OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := c:/nordicSDK/nRF5_SDK_15.0.0_a53641a
 PROJ_DIR := ../../..
 
-$(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
+$(OUTPUT_DIRECTORY)/$(TARGET).out: \
   LINKER_SCRIPT  := usbd_hid_generic_gcc_nrf52.ld
 
 # Source files common to all targets
@@ -180,10 +180,10 @@ LDFLAGS += -Wl,--gc-sections
 # use newlib in nano version
 LDFLAGS += --specs=nano.specs
 
-nrf52840_xxaa: CFLAGS += -D__HEAP_SIZE=8192
-nrf52840_xxaa: CFLAGS += -D__STACK_SIZE=8192
-nrf52840_xxaa: ASMFLAGS += -D__HEAP_SIZE=8192
-nrf52840_xxaa: ASMFLAGS += -D__STACK_SIZE=8192
+$(TARGET): CFLAGS += -D__HEAP_SIZE=8192
+$(TARGET): CFLAGS += -D__STACK_SIZE=8192
+$(TARGET): ASMFLAGS += -D__HEAP_SIZE=8192
+$(TARGET): ASMFLAGS += -D__STACK_SIZE=8192
 
 # Add standard libraries at the very end of the linker input, after all objects
 # that may need symbols provided by these libraries.
@@ -193,12 +193,12 @@ LIB_FILES += -lc -lnosys -lm
 .PHONY: default help
 
 # Default target - first one defined
-default: nrf52840_xxaa
+default: $(TARGET)
 
 # Print all targets that can be built
 help:
 	@echo following targets are available:
-	@echo		nrf52840_xxaa
+	@echo		$(TARGET)
 	@echo		sdk_config - starting external tool for editing sdk_config.h
 	@echo		flash      - flashing binary
 
@@ -207,22 +207,22 @@ TEMPLATE_PATH := $(SDK_ROOT)/components/toolchain/gcc
 
 include $(TEMPLATE_PATH)/Makefile.common
 
-$(foreach target, $(TARGETS), $(call define_target, $(target)))
+$(foreach target, $(TARGET), $(call define_target, $(target)))
 
 .PHONY: flash erase
 
 # Flash the program
-flash: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
+flash: $(OUTPUT_DIRECTORY)/$(TARGET).hex
 	@echo Flashing: $<
 	openocd -f interface/stlink.cfg -f target/nrf52.cfg -c init -c "reset init" -c halt -c "program $< verify" -c "reset run" -c exit
 
 flash_softdevice:
 	@echo Flashing softdevice: s140_nrf52_6.0.0_softdevice.hex
 	openocd -f interface/stlink.cfg -f target/nrf52.cfg -c init -c "reset init" -c halt -c "nrf51 mass_erase" -c "program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex verify" -c "reset run" -c exit
-gdb: $(OUTPUT_DIRECTORY)/nrf52840_xxaa.hex
+gdb: $(OUTPUT_DIRECTORY)/$(TARGET).hex
 	arm-none-eabi-gdb $< -x openocd.gdbinit
 
-flash_nrfjprog: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
+flash_nrfjprog: $(OUTPUT_DIRECTORY)/$(TARGET).hex
 	@echo Flashing: $<
 	nrfjprog -f nrf52 --program $< --sectorerase
 	nrfjprog -f nrf52 --reset
